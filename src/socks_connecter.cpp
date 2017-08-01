@@ -338,6 +338,10 @@ int zmq::socks_connecter_t::connect_to_proxy ()
     if (!options.bound_device.empty ())
         bind_to_device (s, options.bound_device);
 
+    // Put the socket in a routing domain if applicable
+    if (options.rdid != 0)
+        set_rdid (s, options.rdid);
+
     // Set the socket to non-blocking mode so that we get async connect().
     unblock_socket (s);
 

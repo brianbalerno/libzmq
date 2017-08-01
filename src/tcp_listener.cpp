@@ -216,6 +216,10 @@ int zmq::tcp_listener_t::set_address (const char *addr_)
     if (!options.bound_device.empty ())
         bind_to_device (s, options.bound_device);
 
+    // Put the socket in a routing domain if applicable
+    if (options.rdid != 0)
+        set_rdid (s, options.rdid);
+
     //  Set the socket buffer limits for the underlying socket.
     if (options.sndbuf >= 0)
         set_tcp_send_buffer (s, options.sndbuf);

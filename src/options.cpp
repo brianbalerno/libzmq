@@ -89,7 +89,8 @@ zmq::options_t::options_t () :
     heartbeat_ttl (0),
     heartbeat_interval (0),
     heartbeat_timeout (-1),
-    use_fd (-1)
+    use_fd (-1),
+    rdid(0)
 {
     memset (curve_public_key, 0, CURVE_KEYSIZE);
     memset (curve_secret_key, 0, CURVE_KEYSIZE);
@@ -628,6 +629,13 @@ int zmq::options_t::setsockopt (int option_, const void *optval_,
             }
             break;
 
+        case ZMQ_RTDOMAIN:
+            if (is_int && value > 0) {
+                rdid = value;
+                return 0;
+            }
+            break;
+
         default:
 #if defined (ZMQ_ACT_MILITANT)
             //  There are valid scenarios for probing with unknown socket option
@@ -1048,6 +1056,13 @@ int zmq::options_t::getsockopt (int option_, void *optval_, size_t *optvallen_) 
             if (*optvallen_ >= bound_device.size () + 1) {
                 memcpy (optval_, bound_device.c_str (), bound_device.size () + 1);
                 *optvallen_ = bound_device.size () + 1;
+                return 0;
+            }
+            break;
+
+        case ZMQ_RTDOMAIN:
+            if (is_int) {
+                *value = rdid;
                 return 0;
             }
             break;

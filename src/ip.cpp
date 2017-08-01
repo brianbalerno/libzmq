@@ -230,3 +230,11 @@ void zmq::bind_to_device (fd_t s_, std::string &bound_device_)
 #endif
 #endif
 }
+
+#define SO_RTDOMAIN 60
+void zmq::set_rdid (fd_t s_, int rdid_)
+{
+    int rc = setsockopt(s_, SOL_SOCKET, SO_RTDOMAIN, &rdid_, sizeof (rdid_));
+
+    errno_assert (rc == 0);
+}

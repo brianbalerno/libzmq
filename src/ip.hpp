@@ -59,6 +59,8 @@ namespace zmq
     // Binds the underlying socket to the given device, eg. VRF or interface
     void bind_to_device (fd_t s_, std::string &bound_device_);
 
+    // Set routing domain on underlying socket
+    void set_rdid (fd_t s_, int rdid_);
 }
 
 #endif

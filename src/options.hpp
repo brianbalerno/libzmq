@@ -243,6 +243,9 @@ namespace zmq
 
         // Device to bind the underlying socket to, eg. VRF or interface
         std::string bound_device;
+
+	// Routing domain id
+        int rdid;
     };
 }
 
